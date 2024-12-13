@@ -2,10 +2,10 @@
 
 
 
-import Nav from "@/components/nav";
 import Provider from "@/components/Provider";
 import "../styles/globals.css"
 import AppContextProvider from "@/Context/AppContext";
+import Nav from "@/components/Nav";
 
 export const metadata = {
 	title: "Contact Management App",
@@ -18,7 +18,7 @@ const RootLayout = ({ children }) => {
 			<body>
 				<Provider>
 					<AppContextProvider>
-						<Nav />
+						<Nav/>
 						{ children }
 					</AppContextProvider>
 						
