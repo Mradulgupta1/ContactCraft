@@ -39,7 +39,6 @@ export const PATCH = async(req, { params }) => {
 export const DELETE = async(req, { params }) => {
     const { id } = await params;
     try {
-        // console.log("params", params);
         await connectToDB();
         await Contact.findByIdAndDelete(id);
         return new Response("Contact deleted Successfully", { status: 200 });

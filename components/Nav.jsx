@@ -13,7 +13,6 @@ import { AppContext } from "@/Context/AppContext";
 import { useRouter } from "next/navigation";
 const Nav = () => {
 
-	const router = useRouter();
 	const { data: session } = useSession();
     const [ providers, setProviders ] = useState(null);
 	const [ contactModal, setContactModal ] = useState(false);
@@ -43,9 +42,6 @@ const Nav = () => {
 					userId:session?.user.id
 				})
 			})
-
-			
-
 			if(response.ok){
 				setContactModal((prev) => !prev);
 				setContact({
@@ -54,9 +50,6 @@ const Nav = () => {
 				})
 				
 				fetchContacts();
-				// console.log("Fetch contact Completed");
-				// revalidatePath("/");
-				// router.push("/");
 			}
 		} catch (error) {
 			console.log(error);
@@ -118,7 +111,6 @@ const Nav = () => {
 						</>
 					)
 				}
-				
 			</nav>
 
 			{
@@ -133,7 +125,6 @@ const Nav = () => {
 				)
 			}
 		</>
-		
 	)
 }
 

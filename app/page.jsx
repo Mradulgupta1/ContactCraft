@@ -5,21 +5,9 @@
 "use client"
 import ContactCard from "@/components/ContactCard";
 import ContactForm from "@/components/ContactForm";
-import { getProviders, signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "@/Context/AppContext";
-
-// {contactData && contactData.map((contact) => (
-	// <ContactCard
-	// 	key={contact._id}
-	// 	contact={contact}
-	// 	name={contact.name}
-	// 	contactnumber={contact.contactnumber}
-	// 	image={contact.image}
-	// 	handleEdit={() => handleEdit(contact)}
-	// 	handleDelete={() => handleDelete(contact)}
-	// />
-// ))}
 
 const ContactCardList = ({data, handleEdit, handleDelete}) => {
 	return(
@@ -42,7 +30,6 @@ export default function Home() {
 	const { data: session } = useSession();
 	const [ searchText, setSearchText ] = useState("");
 	const [ searchTimeout, setSearchTimeout ] = useState(null);
-    const [ providers, setProviders ] = useState(null);
 	const [ searchResult, setSearchResult ] = useState([]);
 	const [ contactModal, setContactModal ] = useState(false);
 	const [ contact, setContact ] = useState({
@@ -59,7 +46,6 @@ export default function Home() {
 			regex.test(item.contactnumber)
 		);
 	}
-	// console.log("Session",session?.user);
 
 	const handleSearchChange = (e) => {
 		clearTimeout(searchTimeout);
@@ -71,11 +57,7 @@ export default function Home() {
 			}, 500)
 		)
 	}
-
-	// console.log("ContactData", contactData);
-
 	
-
 	const handleEdit = async (contact) => {
 		setContact({
 			name: contact.name,
@@ -116,52 +98,20 @@ export default function Home() {
 		if(hasConfirmed){
 			try {
 				await fetch(`/api/contacts/${contact._id}`, { method: "DELETE" });
-				// const filteredContacts = contactData.filter((c) => c._id !== contact._id);
-				// setContactData(filteredContacts);
 				fetchContacts();
 			} catch (error) {
 				console.log(error);
 			}
 		}
 
-		// console.log("Delete", contact);
 	}
 
 	useEffect(() => {
 		if(session?.user) fetchContacts();
 	},[session?.user]);
 
-	useEffect(() => {
-        const setUpProviders = async () => {
-            const response = await getProviders();
-
-            setProviders(response);
-        }
-        setUpProviders()
-    }, [])
-
 	return (
 		<>
-			{(!session?.user)&&(
-					<div className="max-w-[600px] mx-auto p-10 m-10 flex flex-col justify-center items-center text-2xl border-2 border-black gap-6 rounded-3xl bg-blue-600">
-						<p className="text-4xl text-gray-50 font-semibold">Please Log In</p>
-						{
-							providers && Object.values(providers).map((provider) => (
-								<button
-									type="button"
-									key={provider.name}
-									onClick={() => signIn(provider.id)}
-									className="border-2 border-black px-8 py-2 rounded-lg bg-black text-white hover:bg-white hover:text-black transition-all"
-								>
-									Sign In
-								</button>
-							))
-						}
-						
-					</div>
-					
-				)
-			}
 			{
 				(session?.user) && (
 					<section className="mt-12 mx-auto my-4 w-full max-w-7xl flex justify-center items-center flex-col gap-2">
@@ -209,14 +159,9 @@ export default function Home() {
 								type="Update"
 							/>
 						}
-
 					</section>
 				)
 			}
-		</>
-			
-		
+		</>	
 	)
 }
-
-

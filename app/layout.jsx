@@ -8,7 +8,7 @@ import AppContextProvider from "@/Context/AppContext";
 import Nav from "@/components/Nav";
 
 export const metadata = {
-	title: "Contact Management App",
+	title: "Contact-Craft",
 	description: "Save, Edit, Delete your Contacts",
 };
 
